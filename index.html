@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tebak-tebakan Sulit</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fce4ec; /* Warna pink muda */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Supaya tidak ada scroll saat tombol pindah */
+            text-align: center;
+        }
+
+        h1 {
+            color: #880e4f;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        #btn-benar {
+            background-color: #4CAF50; /* Hijau */
+            color: white;
+            position: relative; /* Supaya bisa diubah ke absolute */
+            z-index: 10;
+        }
+
+        #btn-salah {
+            background-color: #f44336; /* Merah */
+            color: white;
+            z-index: 5;
+        }
+
+        /* Styling untuk Modal/Notifikasi Akhir */
+        #modal-akhir {
+            display: none; /* Tersembunyi di awal */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 80%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .modal-content p {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #btn-wa {
+            background-color: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>1 + 1 = ?</h1>
+
+        <div class="buttons">
+            <button id="btn-benar">2</button>
+            <button id="btn-salah">3</button>
+        </div>
+    </div>
+
+    <div id="modal-akhir">
+        <div class="modal-content">
+            <h2>Yah, Salah Jawabannya ituu!</h2>
+            <p>Kok jawabannya 3 sih? Kan harusnya 2.<br>Karna salah, hukumannya harus kirim PAP hehe, bole yakk?:)</p>
+            
+            <a id="btn-wa" href="#" target="_blank">
+                Yaudah dehh iyaa
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const btnBenar = document.getElementById('btn-benar'); // Tombol "2"
+        const btnSalah = document.getElementById('btn-salah'); // Tombol "3"
+        const modal = document.getElementById('modal-akhir');
+        const btnWa = document.getElementById('btn-wa');
+
+        // KONFIGURASI NOMOR WA
+        // Ganti nomor ini dengan nomor WhatsApp kamu
+        const nomorWA = "6288220487058"; 
+        const pesanWA = "yaudah dehh iyaa nanti dikirim papnya";
+
+        // Set link WA otomatis
+        btnWa.href = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesanWA)}`;
+
+        let scaleBenar = 1;
+        let scaleSalah = 2;
+
+        // Logika saat tombol "2" (Benar) ditekan
+        btnBenar.addEventListener('click', function() {
+            // 1. Pindahkan tombol ke posisi acak
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            
+            btnBenar.style.position = 'absolute';
+            btnBenar.style.left = `${x}px`;
+            btnBenar.style.top = `${y}px`;
+
+            // 2. Kecilkan tombol "2"
+            scaleBenar -= 0.1;
+            if (scaleBenar < 0) scaleBenar = 0; // Jangan sampai minus
+            btnBenar.style.transform = `scale(${scaleBenar})`;
+
+            // 3. Besarkan tombol "3"
+            scaleSalah += 0.7;
+            btnSalah.style.transform = `scale(${scaleSalah})`;
+        });
+
+        // Logika saat tombol "3" (Salah) ditekan
+        btnSalah.addEventListener('click', function() {
+            modal.style.display = 'flex'; // Munculkan popup
+        });
+
+    </script>
+</body>
+</html>
